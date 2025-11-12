@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center py-5">
+            <h1 class="display-4 mb-4">Welcome to Bug Tracker</h1>
+            <p class="lead mb-4">Track, manage, and resolve bugs efficiently with our powerful bug tracking system.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-4 me-sm-3">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-lg px-4">Register</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-bug-fill text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Report Bugs</h3>
+                    <p>Easily report and track bugs with detailed information and screenshots.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-kanban-fill text-success" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Track Progress</h3>
+                    <p>Monitor the status of reported bugs and stay updated on their progress.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-people-fill text-info" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3>Team Collaboration</h3>
+                    <p>Work together with your team to resolve issues efficiently.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

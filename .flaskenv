@@ -1,0 +1,4 @@
+FLASK_APP=app.py
+FLASK_ENV=production
+SECRET_KEY=your-secret-key-here-12345
+DATABASE_URL=sqlite:////app/instance/bugs.db

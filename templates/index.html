@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Bug Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Reported Bugs</h2>
+    <a href="{{ url_for('new_bug') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Report New Bug
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Bugs</h5>
+                <h2 class="mb-0">{{ bugs|length }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">Open</h5>
+                <h2 class="mb-0">{{ bugs|selectattr('status', 'equalto', 'Open')|list|length }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">In Progress</h5>
+                <h2 class="mb-0">{{ bugs|selectattr('status', 'equalto', 'In Progress')|list|length }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Resolved</h5>
+                <h2 class="mb-0">{{ bugs|selectattr('status', 'equalto', 'Resolved')|list|length }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">All Bugs</h5>
+            </div>
+            <div class="col-auto">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <input type="text" class="form-control" placeholder="Search bugs..." id="searchInput">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Reported By</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bug in bugs %}
+                    <tr>
+                        <td>#{{ bug.id }}</td>
+                        <td>
+                            <a href="{{ url_for('view_bug', bug_id=bug.id) }}" class="text-decoration-none">
+                                {{ bug.title|truncate(50) }}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill bg-{{ 'success' if bug.status == 'Resolved' else 'warning' if bug.status == 'In Progress' else 'info' }}">
+                                {{ bug.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill bg-{{ 'danger' if bug.priority == 'High' else 'warning' if bug.priority == 'Medium' else 'primary' }}">
+                                {{ bug.priority }}
+                            </span>
+                        </td>
+                        <td>{{ bug.reporter.username }}</td>
+                        <td>{{ bug.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ url_for('view_bug', bug_id=bug.id) }}" class="btn btn-outline-primary" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% if bug.user_id == current_user.id or current_user.is_admin %}
+                                <a href="{{ url_for('update_bug', bug_id=bug.id) }}" class="btn btn-outline-secondary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ url_for('delete_bug', bug_id=bug.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this bug?')">
+                                    <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                                <p class="mt-2 mb-0">No bugs found. Start by reporting a new bug!</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Simple search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}
