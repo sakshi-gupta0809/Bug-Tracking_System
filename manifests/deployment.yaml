@@ -14,22 +14,28 @@ spec:
         app: bug-tracker
     spec:
       automountServiceAccountToken: false
+
       containers:
       - name: bug-tracker
-        image: gsakshi0809/bug-tracking_system:1.0.0
+        image: gsakshi0809/bug-tracking_system:1.0.0   # NOT latest
         ports:
         - containerPort: 5000
+
         resources:
           requests:
             cpu: "100m"
             memory: "128Mi"
+            ephemeral-storage: "500Mi"
           limits:
             cpu: "500m"
             memory: "256Mi"
+            ephemeral-storage: "1Gi"
+
         volumeMounts:
-          - name: temp-storage
-            mountPath: /tmp
-      volumes:
         - name: temp-storage
-          emptyDir:
-            sizeLimit: "1Gi"
+          mountPath: /tmp
+
+      volumes:
+      - name: temp-storage
+        emptyDir:
+          sizeLimit: "1Gi"
