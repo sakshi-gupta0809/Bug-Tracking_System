@@ -13,9 +13,16 @@ spec:
       labels:
         app: bug-tracker
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: bug-tracker
-        image: gsakshi0809/bug-tracking_system:latest
+        image: gsakshi0809/bug-tracking_system:1.0.0
         ports:
         - containerPort: 5000
-        
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
