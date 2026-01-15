@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bug-tracker
+  namespace: devsecops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bug-tracker
+  template:
+    metadata:
+      labels:
+        app: bug-tracker
+    spec:
+      containers:
+      - name: bug-tracker
+        image: gsakshi0809/bug-tracking_system:latest
+        ports:
+        - containerPort: 5000
+        
