@@ -17,9 +17,11 @@ spec:
 
       containers:
       - name: bug-tracker
-        image: gsakshi0809/bug-tracking_system:1.0.0   # NOT latest
+        image: gsakshi0809/bug-tracker:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
+
 
         resources:
           requests:
