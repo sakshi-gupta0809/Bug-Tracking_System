@@ -17,7 +17,7 @@ spec:
 
       containers:
       - name: bug-tracker
-        image: gsakshi0809/bug-tracker:__IMAGE_TAG__
+        image: gsakshi0809/bug-tracker:33
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
