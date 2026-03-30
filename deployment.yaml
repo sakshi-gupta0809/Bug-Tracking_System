@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service_name" (I'll need to specify the actual service name to deploy)
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service_name" (I'll need to specify the actual service name to deploy)
+  template:
+    metadata:
+      labels:
+        app: service_name" (I'll need to specify the actual service name to deploy)
+    spec:
+      containers:
+      - name: service_name" (I'll need to specify the actual service name to deploy)
+        image: service_name" (I'll need to specify the actual service name to deploy):latest
+        ports:
+        - containerPort: 80
